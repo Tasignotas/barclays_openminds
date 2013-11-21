@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from creative_exchange import forms
-from creative_exchange.models import Offer
+from creative_exchange.models import Offer, Trade
 from creative_exchange.trading import submit_offer
 
 def trading(request):
@@ -11,6 +11,12 @@ def trading(request):
         if form.is_valid():
             obj = form.save(commit=False)
             trades = submit_offer(obj)
+            for trade in trades:
+                Trade.objects.create(stock_label=trade.stock_label,
+                                     seller=trade.seller,
+                                     buyer=trade.buyer,
+                                     price=trade.price,
+                                     quantity=trade.quantity)
             request.session['trades'] = trades
             return redirect(trading)
     else:
