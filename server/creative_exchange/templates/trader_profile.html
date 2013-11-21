@@ -7,7 +7,10 @@
 </table>
 <input type="submit" value="Submit" />
 </form>
-{% if trades_as_buyer %}
-Labas
+{% if profit_for_stock  %}
+{% for k, v in profit_for_stock.items %}
+{{k}}
+{{v}}
+{% endfor %}
 {% endif %}
 {% endblock %}
