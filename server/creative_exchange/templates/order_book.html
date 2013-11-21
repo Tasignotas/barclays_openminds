@@ -1,0 +1,6 @@
+<tr><th>Stock Label</th><th>Action</th><th>Price</th><th>Quantity</th><th>User</th><th>Timestamp</th></tr>
+{% for offer in offers %}
+<tr><td>{{ offer.stock_label }}</td><td>{{ offer.get_action_display }}</td><td>{{ offer.price }}</td><td>{{ offer.quantity }}</td><td>{{ offer.user }}</td><td>{{ offer.timestamp }}</td></tr>
+{% empty %}
+<tr><td colspan="6" align="center">No offers available</td></tr>
+{% endfor %}
