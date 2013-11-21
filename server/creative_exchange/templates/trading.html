@@ -18,7 +18,7 @@
 {% endif %}
 
 <h4>Offers</h4>
-<table cellpadding="4">
+<table cellpadding="4" border='1'>
 <tr><th>Stock Label</th><th>Action</th><th>Price</th><th>Quantity</th><th>User</th><th>Timestamp</th></tr>
 {% for offer in offers %}
 <tr><td>{{ offer.stock_label }}</td><td>{{ offer.get_action_display }}</td><td>{{ offer.price }}</td><td>{{ offer.quantity }}</td><td>{{ offer.user }}</td><td>{{ offer.timestamp }}</td></tr>

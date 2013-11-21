@@ -17,13 +17,13 @@ def trading(request):
                                      buyer=trade.buyer,
                                      price=trade.price,
                                      quantity=trade.quantity)
-            request.session['trades'] = trades
+            current_trades = request.session['trades']
+            request.session['trades'] = current_trades + trades
             return redirect(trading)
     else:
         form = forms.OfferForm(initial=initial)
     if 'trades' in request.session:
         trades = request.session['trades']
-        del request.session['trades']
     else:
         trades = []
     offers = Offer.objects.order_by('stock_label', 'action', 'timestamp')
