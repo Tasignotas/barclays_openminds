@@ -1,3 +1,19 @@
+{% extends "basic.html" %}
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>
+(function poll(){
+    console.log('Polling...');
+    setTimeout(function () {
+        $.ajax({ url: "offer_json", timeout: 2000, success: function(data){
+        console.log('Success. Here is the data:');
+        console.log(data);
+    }, dataType: "json", complete: poll});
+  }, 2000);
+})();
+</script>
+{% endblock %}
+{% block content %} 
 <form method="post">{% csrf_token %}
 <table>
 {{ trade_form }}
@@ -18,11 +34,6 @@
 {% endif %}
 
 <h4>Offers</h4>
-<table cellpadding="4">
-<tr><th>Stock Label</th><th>Action</th><th>Price</th><th>Quantity</th><th>User</th><th>Timestamp</th></tr>
-{% for offer in offers %}
-<tr><td>{{ offer.stock_label }}</td><td>{{ offer.get_action_display }}</td><td>{{ offer.price }}</td><td>{{ offer.quantity }}</td><td>{{ offer.user }}</td><td>{{ offer.timestamp }}</td></tr>
-{% empty %}
-<tr><td colspan="6" align="center">No offers available</td></tr>
-{% endfor %}
+<table id='offer_table' cellpadding="4">
 </table>
+{% endblock %}
