@@ -1,3 +1,6 @@
+import json
+
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from creative_exchange import forms
@@ -24,6 +27,15 @@ def trading(request):
     offers = Offer.objects.order_by('stock_label', 'action', 'timestamp')
     trades = Trade.objects.order_by('-timestamp')
     return render(request, 'trading.html', dict(trade_form=form, trades=trades, offers=offers))
+    
+def offer_json(request):
+    answer = '<tr><th>Stock Label</th><th>Action</th><th>Price</th><th>Quantity</th><th>User</th><th>Timestamp</th></tr>'
+    offers = Offer.objects.order_by('stock_label', 'action', 'timestamp')
+    if len(offers) == 0:
+        return HttpResponse(answer + '<tr><td colspan="6" align="center">No offers available</td></tr>')
+    for offer in offers:
+        answer += '<tr><td>' + offer.stock_label + '</td><td>' + offer.get_action_display() + '</td><td>' + str(offer.price) + '</td><td>' + str(offer.quantity) + '</td><td>' + offer.user + '</td><td>' + offer.timestamp + '</td></tr>'
+    return HttpResponse(answer)
 
 def trader_test(request):
     form = forms.TraderSelectForm(request.GET)
