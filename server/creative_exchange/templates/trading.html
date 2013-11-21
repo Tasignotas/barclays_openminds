@@ -4,3 +4,25 @@
 </table>
 <input type="submit" value="Submit" />
 </form>
+{% if trades %}
+
+<table cellpadding="8">
+<tr><th>Stock label</th><th>Seller</th><th>Buyer</th><th>Price</th><th>Quantity</th></tr>
+{% for trade in trades %}
+<tr>
+{% for col in trade %}<td>{{ col }}</td>{% endfor %}
+</tr>
+{% endfor %}
+</table>
+
+{% endif %}
+
+<h4>Offers</h4>
+<table cellpadding="4">
+<tr><th>Stock Label</th><th>Action</th><th>Price</th><th>Quantity</th><th>User</th><th>Timestamp</th></tr>
+{% for offer in offers %}
+<tr><td>{{ offer.stock_label }}</td><td>{{ offer.get_action_display }}</td><td>{{ offer.price }}</td><td>{{ offer.quantity }}</td><td>{{ offer.user }}</td><td>{{ offer.timestamp }}</td></tr>
+{% empty %}
+<tr><td colspan="6" align="center">No offers available</td></tr>
+{% endfor %}
+</table>

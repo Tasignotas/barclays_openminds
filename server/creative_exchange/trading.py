@@ -1,7 +1,11 @@
+import collections
+
 from creative_exchange.models import Offer
 
+Trade = collections.namedtuple('Trade', 'stock_label seller buyer price quantity')
 
 def submit_offer(offer):
+    result_trades = []
     buy = offer.action == 'buy'
     possible_trades = Offer.objects.filter(stock_label=offer.stock_label)
     if buy:
@@ -17,7 +21,7 @@ def submit_offer(offer):
         if trade_quantity > 0:
             seller, buyer = (trade_offer.user, offer.user) if buy else (offer.user, trade_offer.user)
             trade_price = min(offer.price, trade_offer.price)
-            announce_trade(offer.stock_label, seller, buyer, trade_price, trade_quantity)
+            result_trades.append(Trade(offer.stock_label, seller, buyer, trade_price, trade_quantity))
         trade_offer.quantity -= trade_quantity
         if trade_offer.quantity == 0:
             trade_offer.delete()
@@ -29,7 +33,4 @@ def submit_offer(offer):
             break
     if offer.quantity > 0:
         offer.save()
-
-
-def announce_trade(stock_label, selling_user, buying_user, price, quantity):
-    print 'TRADE', stock_label, selling_user, '->', buying_user, '$', price, 'x', quantity
+    return result_trades
