@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="get">
+<table>
+{{ trader_profile_form }}
+</table>
+<input type="submit" value="Submit" />
+</form>
+{% if profit_for_stock  %}
+{% for k, v in profit_for_stock.items %}
+{{k}}
+{{v}}
+{% endfor %}
+{% endif %}
+{% endblock %}
