@@ -2,3 +2,4 @@
 .project
 .pydevproject
 *.sqlite3
+.settings

@@ -13,6 +13,7 @@ def trading(request):
         form = forms.OfferForm(request.POST, initial=initial)
         if form.is_valid():
             obj = form.save(commit=False)
+            obj.user = request.user
             trades = submit_offer(obj)
             for trade in trades:
                 Trade.objects.create(stock_label=trade.stock_label,
@@ -20,16 +21,11 @@ def trading(request):
                                      buyer=trade.buyer,
                                      price=trade.price,
                                      quantity=trade.quantity)
-            request.session['trades'] = trades
             return redirect(trading)
     else:
         form = forms.OfferForm(initial=initial)
-    if 'trades' in request.session:
-        trades = request.session['trades']
-        del request.session['trades']
-    else:
-        trades = []
     offers = Offer.objects.order_by('stock_label', 'action', 'timestamp')
+    trades = Trade.objects.order_by('-timestamp')
     return render(request, 'trading.html', dict(trade_form=form, trades=trades, offers=offers))
     
 def offer_json(request):
