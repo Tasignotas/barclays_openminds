@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from creative_exchange import models
+
+admin.site.register(models.Offer)
