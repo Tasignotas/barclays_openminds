@@ -16,7 +16,9 @@ class OfferForm(forms.ModelForm):
         model = models.Offer
         exclude = ('user',)
         widgets = {
-            'action': forms.RadioSelect
+            'action': forms.RadioSelect,
+            'price': forms.TextInput,
+            'quantity': forms.TextInput,
         }
     
     order_type = forms.ChoiceField(choices=ORDER_TYPES)
