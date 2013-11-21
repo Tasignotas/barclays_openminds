@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="get">
+<table>
+{{ trader_profile_form }}
+</table>
+<input type="submit" value="Submit" />
+</form>
+{% if trades_as_buyer %}
+Labas
+{% endif %}
+{% endblock %}
