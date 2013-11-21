@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <form method="post">{% csrf_token %}
 <table>
 {{ trade_form }}
@@ -26,3 +29,4 @@
 <tr><td colspan="6" align="center">No offers available</td></tr>
 {% endfor %}
 </table>
+{% endblock %}

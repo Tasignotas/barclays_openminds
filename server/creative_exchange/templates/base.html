@@ -1,0 +1,25 @@
+<html>
+<head>
+<title>Creative Exchange – Team One</title>
+<style type="text/css">
+body {
+	font-family: Arial;
+}
+
+</style>
+</head>
+<body>
+
+<p>
+{% if user.is_authenticated %}
+Welcome, {{ user.username }}. <a href="{% url 'django.contrib.auth.views.logout_then_login' %}">Click to log out</a>
+{% else %}
+You are not logged in. <a href="{% url 'django.contrib.auth.views.login' %}">Log in</a>
+{% endif %}
+</p>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
