@@ -27,7 +27,7 @@ def trading(request):
         form = forms.OfferForm(initial=initial)
     offers = Offer.objects.order_by('stock_label', 'action', 'timestamp')
     trades = Trade.objects.order_by('-timestamp')
-    return render(request, 'trading.html', dict(trade_form=form, trades=trades, offers=offers))
+    return render(request, 'trading.html', dict(trade_form=form, trades=trades, offers=offers, active_page='home'))
 
 def get_trade_and_order(request):
     trades = Trade.objects.order_by('-timestamp')
@@ -47,4 +47,4 @@ def trader_test(request):
                 profit_for_stock[trade.stock_label] = profit_for_stock.get(trade.stock_label, 0) + sign * trade.price * trade.quantity
     data = zip(*profit_for_stock.items())
     json_data = json.dumps(data)
-    return render(request, 'trader_profile.html', { 'trader_profile_form': form, 'json_data': json_data })
+    return render(request, 'trader_profile.html', { 'trader_profile_form': form, 'json_data': json_data, 'active_page': 'portfolio' })

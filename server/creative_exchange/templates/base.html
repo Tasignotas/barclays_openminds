@@ -11,16 +11,31 @@
 </head>
 <body>
 
-<p>
-{% if user.is_authenticated %}
-Welcome, {{ user.username }}. <a href="{% url 'django.contrib.auth.views.logout_then_login' %}">Click to log out</a>
-{% else %}
-You are not logged in. <a href="{% url 'django.contrib.auth.views.login' %}">Log in</a>
-{% endif %}
-</p>
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Creative Exchange</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li{% if active_page == 'home' %} class="active"{% endif %}><a href="{% url 'home' %}">Home</a></li>
+            <li{% if active_page == 'portfolio' %} class="active"{% endif %}><a href="{% url 'creative_exchange.views.trader_test' %}">Portfolio</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+				<li class="navbar-text">Welcome, {{ user.username }}.</li><li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}">Click to log out</a></li>
+			{% else %}
+				<li class="navbar-text">You are not logged in.</li><li><a href="{% url 'django.contrib.auth.views.login' %}">Log in</a></li>
+			{% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
 
+<div class="container">
 {% block content %}
 {% endblock %}
+</div>
 
 </body>
 </html>
