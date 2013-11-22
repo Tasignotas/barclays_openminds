@@ -1,6 +1,7 @@
 import json
 
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.shortcuts import render, redirect
 
 from creative_exchange import forms
@@ -27,10 +28,15 @@ def trading(request):
     offers = Offer.objects.order_by('stock_label', 'action', 'timestamp')
     trades = Trade.objects.order_by('-timestamp')
     return render(request, 'trading.html', dict(trade_form=form, trades=trades, offers=offers))
-    
-def order_book(request):
+
+def get_trade_and_order(request):
+    trades = Trade.objects.order_by('-timestamp')
     offers = Offer.objects.order_by('stock_label', 'action', 'timestamp')
-    return render(request, 'order_book.html', dict(offers=offers))
+    ans = {}
+    ans['order_book_html'] = render_to_string('order_book.html', dict(offers=offers))
+    ans['trade_history_html'] = render_to_string('trade_history.html', dict(trades=trades))
+    return HttpResponse(json.dumps(ans))
+
 
 def trader_test(request):
     form = forms.TraderSelectForm(request.GET)

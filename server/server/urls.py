@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^$', 'creative_exchange.views.trading', name='home'),
 
     url(r'^traders/login/$', 'django.contrib.auth.views.login'),
-    url(r'^order_book', 'creative_exchange.views.order_book'),
+    url(r'^get_trade_and_order', 'creative_exchange.views.get_trade_and_order'),
     url(r'^traders/logout/$', 'django.contrib.auth.views.logout_then_login', kwargs={ 'login_url': '/' }),
     
     url(r'^traders/profile/$', 'creative_exchange.views.trader_test'),
