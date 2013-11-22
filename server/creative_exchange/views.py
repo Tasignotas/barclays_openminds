@@ -57,6 +57,7 @@ def trader_test(request):
             overall += trade.quantity * trade.price
         json_data['times'].append(trade.timestamp)
         json_data['profit'].append(overall)
+    json_data['times'] = [x.isoformat() for x in json_data['times']]
     print json_data
     return render(request, 'trader_profile.html', { 'json_data': json.dumps(json_data), 'offers' : offers, 'active_page': 'portfolio' })
 
