@@ -5,8 +5,8 @@ from creative_exchange import models
 
 class OfferForm(forms.ModelForm):
     ORDER_TYPES = [
-        ('market', 'Market Order'),
         ('limit', 'Limit Order'),
+        ('market', 'Market Order'),
         ('day', 'Day Order (24 hours)'),
         ('ioc', 'Immediate or Cancel'),
         ('fok', 'Fill or Kill'),
@@ -14,15 +14,14 @@ class OfferForm(forms.ModelForm):
     
     class Meta:
         model = models.Offer
-        exclude = ('user',)
+        exclude = ('user', 'action')
         widgets = {
-            'action': forms.RadioSelect,
-            'price': forms.TextInput,
-            'quantity': forms.TextInput,
+            'stock_label': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Stock label'}),
+            'price': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Price'}),
+            'quantity': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Quantity'}),
         }
     
-    order_type = forms.ChoiceField(choices=ORDER_TYPES)
-    action = forms.ChoiceField(choices=models.Offer.ACTIONS, widget=forms.RadioSelect)
+    order_type = forms.ChoiceField(choices=ORDER_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
 
 class TraderSelectForm(forms.Form):
     trader = forms.ModelChoiceField(User.objects.filter(is_staff=False), required=False)
