@@ -49,12 +49,12 @@ def trader_test(request):
     offers = Offer.objects.filter(user=request.user).order_by('stock_label', 'action', 'timestamp')
     overall = 0
     json_data = {}
-    json_data['times'] = [datetime.datetime.now() - datetime.timedelta(days=2)]
-    json_data['profit'] = [overall]
+    json_data['times'] = []
+    json_data['profit'] = []
     for trade in Trade.objects.order_by('timestamp'):
         if trade.buyer == request.user:
             overall -= trade.quantity * trade.price
-        else:
+        if trade.seller == request.user:
             overall += trade.quantity * trade.price
         json_data['times'].append(trade.timestamp)
         json_data['profit'].append(overall)
