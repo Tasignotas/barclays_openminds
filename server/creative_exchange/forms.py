@@ -22,6 +22,3 @@ class OfferForm(forms.ModelForm):
         }
     
     order_type = forms.ChoiceField(choices=ORDER_TYPES, widget=forms.Select(attrs={'class': 'form-control'}))
-
-class TraderSelectForm(forms.Form):
-    trader = forms.ModelChoiceField(User.objects.filter(is_staff=False), required=False)
