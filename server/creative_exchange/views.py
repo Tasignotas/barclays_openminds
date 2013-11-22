@@ -46,10 +46,23 @@ def get_trade_and_order(request):
 def trader_test(request):
     form = forms.TraderSelectForm(request.GET)
     profit_for_stock = {}
+    offers = Offer.objects.filter(user=request.user).order_by('stock_label', 'action', 'timestamp')
     if form.is_valid() and form.cleaned_data['trader'] is not None:
         for sign, trades in [(1, Trade.objects.filter(buyer=form.cleaned_data['trader'])), (-1, Trade.objects.filter(seller=form.cleaned_data['trader']))]:
             for trade in trades:
                 profit_for_stock[trade.stock_label] = profit_for_stock.get(trade.stock_label, 0) + sign * trade.price * trade.quantity
     data = zip(*profit_for_stock.items())
     json_data = json.dumps(data)
-    return render(request, 'trader_profile.html', { 'trader_profile_form': form, 'json_data': json_data, 'active_page': 'portfolio' })
+    return render(request, 'trader_profile.html', { 'trader_profile_form': form, 'json_data': json_data, 'offers' : offers, 'active_page': 'portfolio' })
+
+    
+@login_required
+def get_trader_orders(request):
+    offers = Offer.objects.filter(user=request.user).order_by('stock_label', 'action', 'timestamp')
+    return HttpResponse(render_to_string('trader_orders.html', {'offers' : offers}))
+    
+    
+@login_required
+def cancel_order(request, id):
+    Offer.objects.get(id=id, user=request.user).delete()
+    return redirect(trader_test)

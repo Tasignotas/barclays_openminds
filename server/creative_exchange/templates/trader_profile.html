@@ -4,6 +4,16 @@
 <script src="{% static 'Chart.min.js' %}"></script>
 <script>
 
+(function poll(){
+    console.log('Polling...');
+    setTimeout(function () {
+        $.ajax({ url: "get_trader_orders", timeout: 100, success: function(data){
+        console.log(data);
+        $('#trader_orders').html(data);
+    }, dataType: "html", complete: poll});
+  }, 1000);
+})();
+
 dataSet = {{ json_data|safe }};
 
 $(function() {
@@ -27,6 +37,9 @@ $(function() {
 <form method="get">
 <table>
 {{ trader_profile_form }}
+</table>
+<table id='trader_orders' cellpadding="4" class="table">
+{% include 'trader_orders.html' %}
 </table>
 <input type="submit" value="Submit" />
 </form>
