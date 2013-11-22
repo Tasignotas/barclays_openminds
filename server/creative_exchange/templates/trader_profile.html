@@ -30,7 +30,7 @@ $(function () {
                 enabled: false
             },
             title: {
-            	text: 'Profit on time' 
+            	text: 'Balance over time' 
             },
             xAxis: {
             	type: 'datetime',
@@ -42,14 +42,14 @@ $(function () {
             },
             yAxis: {
             	title: {
-            		text: 'Profit'
+            		text: '$'
             	},
             },
             credits: {
                 enabled: false
             },
             series: [{
-                name: 'Profit',
+                name: 'Balance',
                 data: dataSet['profit']
             }]
         });
