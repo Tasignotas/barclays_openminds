@@ -39,5 +39,6 @@ def trader_test(request):
         for sign, trades in [(1, Trade.objects.filter(buyer=form.cleaned_data['trader'])), (-1, Trade.objects.filter(seller=form.cleaned_data['trader']))]:
             for trade in trades:
                 profit_for_stock[trade.stock_label] = profit_for_stock.get(trade.stock_label, 0) + sign * trade.price * trade.quantity
-    stock_labels, stock_profits = zip(*profit_for_stock.items())
-    return render(request, 'trader_profile.html', { 'trader_profile_form': form, 'stock_labels': stock_labels, 'stock_profits': stock_profits })
+    data = zip(*profit_for_stock.items())
+    json_data = json.dumps(data)
+    return render(request, 'trader_profile.html', { 'trader_profile_form': form, 'json_data': json_data })
