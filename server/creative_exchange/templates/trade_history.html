@@ -1,0 +1,11 @@
+<tr><th>Stock label</th><th>Seller</th><th>Buyer</th><th>Price</th><th>Quantity</th><th>Timestamp</th></tr>
+{% for trade in trades %}
+<tr>
+<td>{{ trade.stock_label }}</td>
+<td>{{ trade.seller }}</td>
+<td>{{ trade.buyer }}</td>
+<td>{{ trade.price }}</td>
+<td>{{ trade.quantity }}</td>
+<td>{{ trade.timestamp }}</td>
+</tr>
+{% endfor %}
