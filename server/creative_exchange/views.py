@@ -14,8 +14,10 @@ def trading(request):
     initial = {'stock_label': 'vod.l'}
     if request.method == 'POST':
         form = forms.OfferForm(request.POST, initial=initial)
-        if form.is_valid():
+        action = request.POST.get('action')
+        if form.is_valid() and action in ['Buy', 'Sell']:
             obj = form.save(commit=False)
+            obj.action = 'buy' if action == 'Buy' else 'sell'
             obj.user = request.user
             trades = submit_offer(obj)
             for trade in trades:

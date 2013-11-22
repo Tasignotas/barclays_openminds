@@ -21,6 +21,12 @@
 <div class="navbar navbar-default navbar-static-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
           <a class="navbar-brand" href="#">Creative Exchange</a>
         </div>
         <div class="navbar-collapse collapse">
@@ -28,13 +34,11 @@
             <li{% if active_page == 'home' %} class="active"{% endif %}><a href="{% url 'home' %}">Home</a></li>
             <li{% if active_page == 'portfolio' %} class="active"{% endif %}><a href="{% url 'creative_exchange.views.trader_test' %}">Portfolio</a></li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-				<li class="navbar-text">Welcome, {{ user.username }}.</li><li><a href="{% url 'django.contrib.auth.views.logout_then_login' %}">Click to log out</a></li>
+				<p class="navbar-text navbar-right" style="color: white">Welcome, {{ user.username }}. <a class="navbar-link" href="{% url 'django.contrib.auth.views.logout_then_login' %}">Click to log out</a></p>
 			{% else %}
-				<li class="navbar-text">You are not logged in.</li><li><a href="{% url 'django.contrib.auth.views.login' %}">Log in</a></li>
+				<p class="navbar-text navbar-right" style="color: white">You are not logged in. <a class="navbar-link" href="{% url 'django.contrib.auth.views.login' %}">Log in</a></p>
 			{% endif %}
-          </ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
