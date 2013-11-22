@@ -13,21 +13,24 @@
 })();
 </script>
 {% endblock %}
-{% block content %} 
+{% block content %}
+<div class="col-sm-3"> 
 <form method="post">{% csrf_token %}
 <table>
 {{ trade_form }}
 </table>
 <input type="submit" value="Submit" />
 </form>
-
+</div>
+<div class="col-sm-9">
 <h1>Trade History</h1>
-<table id='trade_history' cellpadding="8">
+<table id='trade_history' cellpadding="4" class="table">
 {% include 'trade_history.html' %}
 </table>
 
 <h1>Order Book</h1>
-<table id='order_book' cellpadding="4">
+<table id='order_book' cellpadding="4" class="table">
 {% include 'order_book.html' %}
 </table>
+</div>
 {% endblock %}

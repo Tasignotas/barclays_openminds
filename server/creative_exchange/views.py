@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.shortcuts import render, redirect
@@ -8,6 +9,7 @@ from creative_exchange import forms
 from creative_exchange.models import Offer, Trade
 from creative_exchange.trading import submit_offer
 
+@login_required
 def trading(request):
     initial = {'stock_label': 'vod.l'}
     if request.method == 'POST':
@@ -29,6 +31,7 @@ def trading(request):
     trades = Trade.objects.order_by('-timestamp')
     return render(request, 'trading.html', dict(trade_form=form, trades=trades, offers=offers, active_page='home'))
 
+@login_required
 def get_trade_and_order(request):
     trades = Trade.objects.order_by('-timestamp')
     offers = Offer.objects.order_by('stock_label', 'action', 'timestamp')
@@ -37,7 +40,7 @@ def get_trade_and_order(request):
     ans['trade_history_html'] = render_to_string('trade_history.html', dict(trades=trades))
     return HttpResponse(json.dumps(ans))
 
-
+@login_required
 def trader_test(request):
     form = forms.TraderSelectForm(request.GET)
     profit_for_stock = {}
