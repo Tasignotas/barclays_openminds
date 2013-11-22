@@ -1,5 +1,28 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+{% block script %}
+<script src="{% static 'Chart.min.js' %}"></script>
+<script>
 
+dataSet = {{ json_data|safe }};
+
+$(function() {
+	var barChartData = {
+	        labels : dataSet[0],
+	        datasets : [
+	                {
+	                        fillColor : "rgba(220,220,220,0.5)",
+	                        strokeColor : "rgba(220,220,220,1)",
+	                        data : dataSet[1]
+	                }
+	        ]
+	        
+	}
+	
+	var myLine = new Chart(document.getElementById("trader_profit").getContext("2d")).Bar(barChartData);
+});
+</script>
+{% endblock %}
 {% block content %}
 <form method="get">
 <table>
@@ -7,12 +30,5 @@
 </table>
 <input type="submit" value="Submit" />
 </form>
-<pre>
-{% for label in stock_labels %}{{ label }}
-{% endfor %}
-
-{% for label in stock_profits %}{{ label }}
-{% endfor %}
-
-</pre>
+<canvas id="trader_profit" width="400" height="400"></canvas>
 {% endblock %}
