@@ -13,7 +13,7 @@ from creative_exchange.trading import submit_offer
 
 @login_required
 def trading(request):
-    initial = {'stock_label': 'vod.l'}
+    initial = {}
     if request.method == 'POST':
         form = forms.OfferForm(request.POST, initial=initial)
         action = request.POST.get('action')
