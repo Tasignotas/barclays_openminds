@@ -1,4 +1,5 @@
 import json
+import calendar
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -57,7 +58,8 @@ def trader_test(request):
             overall += trade.quantity * trade.price
         json_data['times'].append(trade.timestamp)
         json_data['profit'].append(overall)
-    json_data['times'] = [x.isoformat() for x in json_data['times']]
+    json_data['times'] = [1000 * calendar.timegm(x.utctimetuple()) for x in json_data['times']]
+    json_data = zip(json_data['times'], json_data['profit'])
     print json_data
     return render(request, 'trader_profile.html', { 'json_data': json.dumps(json_data), 'offers' : offers, 'active_page': 'portfolio' })
 

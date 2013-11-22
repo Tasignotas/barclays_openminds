@@ -7,10 +7,10 @@
 <script>
 
 (function poll(){
-    console.log('Polling...');
+    //console.log('Polling...');
     setTimeout(function () {
         $.ajax({ url: "get_trader_orders", timeout: 100, success: function(data){
-        console.log(data);
+        //console.log(data);
         $('#trader_orders').html(data);
     }, dataType: "html", complete: poll});
   }, 1000);
@@ -18,42 +18,38 @@
 
 dataSet = {{ json_data|safe }};
 
-for (var i = 0; i < dataSet['times'].length; i++)
-	dataSet['times'][i] = new Date(dataSet['times'][i]);
-
 $(function () {
-        $('#container').highcharts({
-            chart: {
-                type: 'line'
-            },
-            exporting: {
-                enabled: false
-            },
-            title: {
-            	text: 'Profit on time' 
-            },
-            xAxis: {
-            	type: 'datetime',
-            	 dateTimeLabelFormats: { // don't display the dummy year
-                     month: '%e. %b',
-                     year: '%b'
-                 },
-                categories: dataSet['times']
-            },
-            yAxis: {
-            	title: {
-            		text: 'Profit'
-            	},
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: 'Profit',
-                data: dataSet['profit']
-            }]
-        });
-    });
+     $('#container').highcharts({
+         chart: {
+             type: 'line'
+         },
+         exporting: {
+             enabled: false
+         },
+         title: {
+         	text: 'Profit on time' 
+         },
+         xAxis: {
+         	type: 'datetime',
+         	dateTimeLabelFormats: { // don't display the dummy year
+                  month: '%e. %b',
+                  year: '%b'
+              },
+         },
+         yAxis: {
+         	title: {
+         		text: 'Profit'
+         	},
+         },
+         credits: {
+             enabled: false
+         },
+         series: [{
+             name: 'Profit',
+             data: dataSet
+         }]
+     });
+ });
     
 
 </script>
