@@ -19,7 +19,10 @@ $(function() {
 	        
 	}
 	
-	var myLine = new Chart(document.getElementById("trader_profit").getContext("2d")).Bar(barChartData);
+	var options = {scaleShowLabels: true};
+	
+	var myLine = new Chart(document.getElementById("trader_profit").getContext("2d")).Bar(barChartData, options);
+
 });
 </script>
 {% endblock %}
