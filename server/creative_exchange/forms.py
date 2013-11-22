@@ -5,8 +5,8 @@ from creative_exchange import models
 
 class OfferForm(forms.ModelForm):
     ORDER_TYPES = [
-        ('market', 'Market Order'),
         ('limit', 'Limit Order'),
+        ('market', 'Market Order'),
         ('day', 'Day Order (24 hours)'),
         ('ioc', 'Immediate or Cancel'),
         ('fok', 'Fill or Kill'),
