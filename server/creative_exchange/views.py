@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.shortcuts import render, redirect
+import datetime
 
 from creative_exchange import forms
 from creative_exchange.models import Offer, Trade
@@ -44,14 +45,20 @@ def get_trade_and_order(request):
 
 @login_required
 def trader_test(request):
-    profit_for_stock = {}
     offers = Offer.objects.filter(user=request.user).order_by('stock_label', 'action', 'timestamp')
-    for sign, trades in [(-1, Trade.objects.filter(buyer=request.user)), (1, Trade.objects.filter(seller=request.user))]:
-        for trade in trades:
-            profit_for_stock[trade.stock_label] = profit_for_stock.get(trade.stock_label, 0) + sign * trade.price * trade.quantity
-    data = zip(*profit_for_stock.items())
-    json_data = json.dumps(data)
-    return render(request, 'trader_profile.html', { 'json_data': json_data, 'offers' : offers, 'active_page': 'portfolio' })
+    overall = 0
+    json_data = {}
+    json_data['times'] = [datetime.datetime.now() - datetime.timedelta(days=2)]
+    json_data['profit'] = [overall]
+    for trade in Trade.objects.order_by('timestamp'):
+        if trade.buyer == request.user:
+            overall -= trade.quantity * trade.price
+        else:
+            overall += trade.quantity * trade.price
+        json_data['times'].append(trade.timestamp)
+        json_data['profit'].append(overall)
+    print json_data
+    return render(request, 'trader_profile.html', { 'json_data': json.dumps(json_data), 'offers' : offers, 'active_page': 'portfolio' })
 
     
 @login_required
