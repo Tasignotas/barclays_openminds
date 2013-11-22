@@ -4,11 +4,12 @@
 (function poll(){
     console.log('Polling...');
     setTimeout(function () {
-        $.ajax({ url: "order_book", timeout: 100, success: function(data){
+        $.ajax({ url: "get_trade_and_order", timeout: 100, success: function(data){
         console.log('Success. Here is the data:');
-        $('#order_book').html(data);
-    }, dataType: "html", complete: poll});
-  }, 100);
+        $('#order_book').html(data['order_book_html']);
+        $('#trade_history').html(data['trade_history_html']);
+    }, dataType: "json", complete: poll});
+  }, 1000);
 })();
 </script>
 {% endblock %}
@@ -21,24 +22,9 @@
 </form>
 
 <h1>Trade History</h1>
-{% if trades %}
-
-<table cellpadding="8">
-<tr><th>Stock label</th><th>Seller</th><th>Buyer</th><th>Price</th><th>Quantity</th><th>Timestamp</th></tr>
-{% for trade in trades %}
-<tr>
-<td>{{ trade.stock_label }}</td>
-<td>{{ trade.seller }}</td>
-<td>{{ trade.buyer }}</td>
-<td>{{ trade.price }}</td>
-<td>{{ trade.quantity }}</td>
-<td>{{ trade.timestamp }}</td>
-</tr>
-{% endfor %}
+<table id='trade_history' cellpadding="8">
+{% include 'trade_history.html' %}
 </table>
-
-{% endif %}
-
 
 <h1>Order Book</h1>
 <table id='order_book' cellpadding="4">
